@@ -10,6 +10,10 @@
 
 let s:NOTIFY    = 'NOTIFY SSTP/1.5\r\n\r\n'
 let s:SENDER    = 'Sender: VimUkagakaSSTP\r\n\r\n'
+let s:IFGHOST   = ''
+if exists( 'g:UkagakaGhost' )
+    let s:IFGHOST   = 'IfGhost: ' . g:UkagakaGhost . '\r\n\r\n'
+endif
 "let s:EVENT or SCRIPT = add your text Script or Event
 let s:OPTION    = 'Option: nodescript, notranslate\r\n\r\n'
 let s:CHARSET   = 'Charset: UTF-8\r\n\r\n'
@@ -37,7 +41,7 @@ function! VimUkagakaSSTP#Func( ... ) abort
     endif
     let l:FuncName      = "Event: " . l:FuncName . '\r\n\r\n'
     let l:script    = "SCRIPT: I dont load " . l:FuncName . ' function\r\n\r\n' 
-    let l:text      = s:NOTIFY . s:SENDER . l:FuncName . l:reference . l:script . s:OPTION . s:CHARSET . s:END
+    let l:text      = s:NOTIFY . s:SENDER . s:IFGHOST . l:FuncName . l:reference . l:script . s:OPTION . s:CHARSET . s:END
     execute "python3 VimUkagakaSSTPInst.talk('" . l:text . "')"
 endfunction
 
@@ -54,7 +58,7 @@ function! VimUkagakaSSTP#Talk(...) abort
         let l:text = l:text . l:line
     endfor
     let l:text = "SCRIPT: " . l:text . '\r\n\r\n'
-    let l:text      = s:NOTIFY . s:SENDER . l:text . s:OPTION . s:CHARSET . s:END
+    let l:text      = s:NOTIFY . s:SENDER . s:IFGHOST . l:text . s:OPTION . s:CHARSET . s:END
     execute "python3 VimUkagakaSSTPInst.talk('" . l:text . "')"
 endfunction
 
