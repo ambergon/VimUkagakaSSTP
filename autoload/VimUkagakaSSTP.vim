@@ -8,14 +8,25 @@
 "    \Charset: UTF-8\r\n\r\n
 "    \\r\n\r\n'
 
+""設定の追加
+"g:UkagakaGhostOption
+
+
+
 let s:NOTIFY    = 'NOTIFY SSTP/1.5\r\n\r\n'
 let s:SENDER    = 'Sender: VimUkagakaSSTP\r\n\r\n'
 let s:IFGHOST   = ''
 if exists( 'g:UkagakaGhost' )
     let s:IFGHOST   = 'IfGhost: ' . g:UkagakaGhost . '\r\n\r\n'
 endif
-"let s:EVENT or SCRIPT = add your text Script or Event
-let s:OPTION    = 'Option: nodescript, notranslate\r\n\r\n'
+
+""let s:EVENT or SCRIPT = add your text Script or Event
+"let s:OPTION    = 'Option: nodescript, notranslate\r\n\r\n'
+let s:OPTION   = 'Option: \r\n\r\n'
+if exists( 'g:UkagakaGhostOption' )
+    let s:OPTION = 'Option: ' . g:UkagakaGhostOption . '\r\n\r\n'
+endif
+
 let s:CHARSET   = 'Charset: UTF-8\r\n\r\n'
 let s:END       = '\r\n\r\n'
 

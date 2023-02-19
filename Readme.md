@@ -22,10 +22,16 @@ Onを省略して呼び出すことが可能。
 
 
 ## Setting
+#### このプラグインから呼び出すゴーストの名前を選択。
 ```
 let g:UkagakaGhost = "sakura.name or kero.name"
 ```
-このプラグインから呼び出すゴーストの名前を選択できる。
+
+#### SSTPオプションを指定
+デフォルト 無し。
+```
+let g:UkagakaGhostOption = "nodescript, notranslate, nobreak"
+```
 
 
 ## 未実装項目

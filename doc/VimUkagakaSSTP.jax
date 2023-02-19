@@ -60,6 +60,8 @@ https://github.com/ambergon/VimUkagakaSSTP.vim
 g:UkagakaGhost					*g:UkagakaGhost*
 テキストを投げたいゴーストのsakura.name or kero.nameを指定することができます。
 
+g:UkagakaGhostOption				*g:UkagakaGhostOption*
+nodescript, notranslate, nobreakなどを指定することができます。
 
 ------------------------------------------------------------------------------
 コマンド					*VimUkagakaSSTP-commands*
