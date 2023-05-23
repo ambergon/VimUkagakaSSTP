@@ -4,6 +4,8 @@ endif
 let g:loaded_VimUkagakaSSTP = 1
 
 
-command! -range     UkagakaTalk     call VimUkagakaSSTP#Talk(<line1>,<line2>)
-command! -nargs=+   UkagakaFunc     call VimUkagakaSSTP#Func(<f-args>)
+
+command! -range     UkagakaTalk         call VimUkagakaSSTP#Talk(<line1>,<line2>)
+command! -nargs=+   UkagakaFunc         call VimUkagakaSSTP#Func(<f-args>)
+command! -nargs=1   UkagakaCommunicate  call VimUkagakaSSTP#Communicate(<q-args>)
 

@@ -1,59 +1,115 @@
-""sample text
-"let l:word = '
-"    \NOTIFY SSTP/1.5\r\n\r\n
-"    \Sender: vim\r\n\r\n
-"    \Event: OnTest\r\n\r\n
-"    \Script: \\0This text is sent from Python.\\nCan you see this？\r\n\r\n
-"    \Option: nodescript, notranslate\r\n\r\n
-"    \Charset: UTF-8\r\n\r\n
-"    \\r\n\r\n'
-
-""設定の追加
-"g:UkagakaGhostOption
 
 
-
-let s:NOTIFY    = 'NOTIFY SSTP/1.5\r\n\r\n'
-let s:SENDER    = 'Sender: VimUkagakaSSTP\r\n\r\n'
-let s:IFGHOST   = ''
-if exists( 'g:UkagakaGhost' )
-    let s:IFGHOST   = 'IfGhost: ' . g:UkagakaGhost . '\r\n\r\n'
+if !exists('g:UkagakaGhostOption')
+    let g:UkagakaGhostOption = ""
 endif
 
-""let s:EVENT or SCRIPT = add your text Script or Event
-"let s:OPTION    = 'Option: nodescript, notranslate\r\n\r\n'
-let s:OPTION   = 'Option: \r\n\r\n'
-if exists( 'g:UkagakaGhostOption' )
-    let s:OPTION = 'Option: ' . g:UkagakaGhostOption . '\r\n\r\n'
-endif
 
-let s:CHARSET   = 'Charset: UTF-8\r\n\r\n'
-let s:END       = '\r\n\r\n'
+python3 << EOF
+# -*- coding: utf-8 -*-
+import vim
+import socket
+
+class VimUkagakaSSTP:
+
+    Host    = "127.0.0.1"
+    Port    = 9801
+
+    Method      = "NOTIFY SSTP/1.5\r\n"
+    Charset     = "Charset: UTF-8\r\n"
+    Sender      = "Sender: vim\r\n"
+
+    IfGhost     = ""
+    Option      = ""
+
+    End         = "\r\n"
+
+    def __init__( self ):
+        #どちらも必須オプション化。
+        # = "" 空でも設定しておく必要がある。
+        Ghost   = vim.vars["UkagakaGhost"].decode( encoding='utf-8') 
+        Option  = vim.vars["UkagakaGhostOption"].decode( encoding='utf-8') 
+        if Ghost != "":
+            self.IfGhost    = "IfGhost : " + Ghost + "\r\n"
+        if Option != "":
+            self.Option     = "Option : " + Option + "\r\n"
+        print( "set use Ghost " + Ghost )
+        print( "set use Option" + Option )
+
+
+    #対話用
+    def Communicate( self , script ):
+        Event       = "Event: OnCommunicate\r\n"
+        Reference0  = "Reference0 : User\r\n"
+        Reference1  = "Reference1 : " + script + "\r\n"
+
+        msg = self.Method + self.Charset + self.Sender + self.Option + self.IfGhost + Event + Reference0 + Reference1 + self.End
+        self.Send( msg )
+
+ 
+    # event         = On~...
+    # references    = Reference0 : .... \r\n Reference1.....
+    def Func( self , event , references ):
+        #print( references )
+        Event       = "Event: " + event + "\r\n"
+        msg = self.Method + self.Charset + self.Sender + self.Option + self.IfGhost + Event + references + self.End
+        self.Send( msg )
+
+
+    #カーソル化や選択範囲をテキストを投げれるようにしよう。
+    def Talk( self , script ):
+        Script      = "Script : " + script + "\r\n"
+
+        msg = self.Method + self.Charset + self.Sender + self.Option + self.IfGhost + Script + self.End
+        self.Send( msg )
+
+
+    def Send( self , sendText ):
+        Client = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
+        Client.connect(( self.Host , self.Port ))
+        Client.send( sendText.encode() )
+        response = Client.recv( 4096 )
+        Client.close()
+
+
+
+VimUkagakaSSTPInst = VimUkagakaSSTP()
+EOF
+
+
+"function! s:Init() abort
+"    if !exists('g:loaded_VimUkagakaSSTP_pythonInit')
+"        let g:loaded_VimUkagakaSSTP_pythonInit = 1
+"        py3 VimUkagakaSSTPInst = VimUkagakaSSTP()
+"    endif
+"endfunction
+
+
+function! VimUkagakaSSTP#Communicate( text ) abort
+    execute "python3 VimUkagakaSSTPInst.Communicate('" . a:text . "')"
+endfunction
 
 
 function! VimUkagakaSSTP#Func( ... ) abort
-    let l:reference = ""
-    let l:count = 0
+    "let l:Func
+    let l:References    = ""
+    let l:Count         = 0
     for line in a:000
-        "関数名を排除
-        if !exists( 'l:first' )
-            let l:first = "done"
+        if !exists( 'l:Func' )
+            let l:Func = line
             continue
         endif
 
-        let l:reference = l:reference . "reference" . l:count . ": " . line . '\r\n\r\n'
-        let l:count = l:count + 1
+        let l:References = l:References . "Reference" . l:Count . " : " . line . '\r\n'
+        let l:Count = l:Count + 1
     endfor
 
-    "matchstr(検索対象,検索テキスト) 
-    let l:FuncName = matchstr( a:1 , "^On.*" ) 
+    "関数名がOnから始まらないならOnをつける。
+    let l:FuncName = matchstr( l:Func , "^On.*" ) 
     if l:FuncName == ""
-        let l:FuncName = "On" . a:1
+        let l:FuncName = "On" . l:Func
     endif
-    let l:FuncName      = "Event: " . l:FuncName . '\r\n\r\n'
-    let l:script    = "SCRIPT: I dont load " . l:FuncName . ' function\r\n\r\n' 
-    let l:text      = s:NOTIFY . s:SENDER . s:IFGHOST . l:FuncName . l:reference . l:script . s:OPTION . s:CHARSET . s:END
-    execute "python3 VimUkagakaSSTPInst.talk('" . l:text . "')"
+    execute "python3 VimUkagakaSSTPInst.Func('" . l:FuncName . "','" . l:References . "')"
 endfunction
 
 
@@ -66,39 +122,10 @@ function! VimUkagakaSSTP#Talk(...) abort
         let l:line = substitute( l:line , '\\' , '\\\\' , "g")
         let l:line = substitute( l:line , '"' , '' , "g")
         let l:line = substitute( l:line , "'" , '' , "g")
-        let l:text = l:text . l:line
+        let l:text = l:text . l:line . '\\n'
     endfor
-    let l:text = "SCRIPT: " . l:text . '\r\n\r\n'
-    let l:text      = s:NOTIFY . s:SENDER . s:IFGHOST . l:text . s:OPTION . s:CHARSET . s:END
-    execute "python3 VimUkagakaSSTPInst.talk('" . l:text . "')"
+
+    execute "python3 VimUkagakaSSTPInst.Talk('" . l:text . "')"
 endfunction
 
 
-python3 << EOF
-# -*- coding: utf-8 -*-
-#vim からpythonに投げる際に改行コードの数を確認すること。
-import vim
-import socket
-
-class VimUkagakaSSTP:
-    test = ""
-
-    def __init__(self):
-        self.test = ""
-
-    def talk( self , word ):
-        #print(word)
-        #print(word.encode())
-        host = "127.0.0.1"
-        port = 9801
-
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((host, port))
-
-        client.send(word.encode())
-        response = client.recv(4096)
-        client.close()
-        #print(response.decode())
-
-VimUkagakaSSTPInst = VimUkagakaSSTP()
-EOF
