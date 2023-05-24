@@ -3,6 +3,14 @@ Vimから伺かにテキストを投げられるプラグイン
 
 
 ## Usage
+### UkagakaCommunicate
+```
+:UkagakaCommunicate 話したい事
+```
+直接Ghostと対話する為のコマンド。< /br >
+CommunicateBoxに送信したときと同じ動作となる。
+
+
 ### UkagakaTalk
 ```
 :UkagakaTalk
@@ -14,10 +22,10 @@ Vimから伺かにテキストを投げられるプラグイン
 ```
 :UkagakaFunc OnFunction reference0 ...
 ```
-第一引数にゴーストの辞書に登録されている関数名をとる。
-Onから始まる関数のみ呼び出せる。
-Onを省略して呼び出すことが可能。
-以降の引数はゴースト側からreference0..として使用することができる。
+第一引数にゴーストの辞書に登録されている関数名をとる。< br >
+Onから始まる関数のみ呼び出せる。< br >
+Onを省略して呼び出すことが可能。< br >
+以降の引数はゴースト側からreference0..として使用することができる。< br >
 
 
 

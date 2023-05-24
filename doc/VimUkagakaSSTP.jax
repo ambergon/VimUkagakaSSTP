@@ -65,6 +65,10 @@ nodescript, notranslate, nobreakなどを指定することができます。
 
 ------------------------------------------------------------------------------
 コマンド					*VimUkagakaSSTP-commands*
+:UkagakaCommunicate ...				*:UkagakaCommunicate*
+直接コミュニケートボックスに入力したときと同じ挙動になる。
+
+
 
 :UkagakaTalk					*:UkagakaTalk*
 現在の行、もしくは選択した複数の行を簡単に整形したのち、ゴーストに投げます。
@@ -80,6 +84,8 @@ Onは省略して入力することができます。
 
 ------------------------------------------------------------------------------
 関数						*VimUkagakaSSTP-functions*
+VimUkagakaSSTP#Communicate( {...} )		*VimUkagakaSSTP#Communicate()*
+
 
 VimUkagakaSSTP#Func( {...} )			*VimUkagakaSSTP#Func()*
 
