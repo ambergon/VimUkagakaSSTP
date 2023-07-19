@@ -85,11 +85,13 @@ EOF
 "endfunction
 
 
+"OnCommunicateを実行し引数を投げる関数。
 function! VimUkagakaSSTP#Communicate( text ) abort
     execute "python3 VimUkagakaSSTPInst.Communicate('" . a:text . "')"
 endfunction
 
 
+"指定した関数名を実行する関数
 function! VimUkagakaSSTP#Func( ... ) abort
     "let l:Func
     let l:References    = ""
@@ -113,6 +115,7 @@ function! VimUkagakaSSTP#Func( ... ) abort
 endfunction
 
 
+"選択した範囲を読み上げる関数。
 function! VimUkagakaSSTP#Talk(...) abort
     let l:text =''
     for n in range(a:1, a:2)
@@ -127,5 +130,45 @@ function! VimUkagakaSSTP#Talk(...) abort
 
     execute "python3 VimUkagakaSSTPInst.Talk('" . l:text . "')"
 endfunction
+
+
+"現在のカーソル行および、選択範囲の内容を引数とともにゴーストに渡す。
+function! VimUkagakaSSTP#Ask(...) abort
+    let l:text =''
+    for n in range(a:2, a:3)
+        let l:line = getline( n )
+        let l:line = substitute( l:line , "/$" , "" , "")
+        let l:line = substitute( l:line , '  ' , '' , "g")
+        let l:line = substitute( l:line , '\\' , '\\\\' , "g")
+        let l:line = substitute( l:line , '"' , '' , "g")
+        let l:line = substitute( l:line , "'" , '' , "g")
+        let l:text = l:text . l:line 
+        "let l:text = l:text . l:line . '\\n'
+    endfor
+    let l:text = a:1 . '\\n' . l:text
+
+    "execute "python3 VimUkagakaSSTPInst.Talk('" . l:text . "')"
+    execute "python3 VimUkagakaSSTPInst.Communicate('" . l:text . "')"
+endfunction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

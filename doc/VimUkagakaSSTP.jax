@@ -82,8 +82,18 @@ Onは省略して入力することができます。
 以降の引数はreference0以降として伺か側で利用できます。
 
 
+:UkagakaAsk [{}]				*:UkagakaAsk*
+ChatGPTを使うことを想定し、作成した。
+引数を最大1つ指定し、現在のカーソル行および選択行を合わせたものをOnCommunicateに投げることができる。
+以下を要約せよ。+ 選択範囲 等の使用を想定している。
+
 ------------------------------------------------------------------------------
 関数						*VimUkagakaSSTP-functions*
+
+
+VimUkagakaSSTP#Ask({...})			*VimUkagakaSSTP#Ask()*
+
+
 VimUkagakaSSTP#Communicate( {...} )		*VimUkagakaSSTP#Communicate()*
 
 
@@ -100,6 +110,7 @@ TODO						*VimUkagakaSSTP-todo*
 
 ==============================================================================
 更新履歴					*VimUkagakaSSTP-changelog*
+Ask関数を作成した。
 
 
 ==============================================================================
