@@ -11,6 +11,12 @@ Vimから伺かにテキストを投げられるプラグイン
 CommunicateBoxに送信したときと同じ動作となる。
 
 
+### UkagakaAsk [引数]
+引数 + 現在の行および選択した行のテキストをOnCommunicate関数に送信する。
+ChatGPTなどとの対話を想定している。
+
+
+
 ### UkagakaTalk
 ```
 :UkagakaTalk
