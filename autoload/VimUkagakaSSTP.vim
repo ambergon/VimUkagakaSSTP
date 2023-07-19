@@ -142,8 +142,8 @@ function! VimUkagakaSSTP#Ask(...) abort
         let l:line = substitute( l:line , '\\' , '\\\\' , "g")
         let l:line = substitute( l:line , '"' , '' , "g")
         let l:line = substitute( l:line , "'" , '' , "g")
-        let l:text = l:text . l:line 
-        "let l:text = l:text . l:line . '\\n'
+        "let l:text = l:text . l:line 
+        let l:text = l:text . l:line . '\\n'
     endfor
     let l:text = a:1 . '\\n' . l:text
 

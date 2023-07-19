@@ -5,14 +5,18 @@ Vimから伺かにテキストを投げられるプラグイン
 ## Usage
 ### UkagakaCommunicate
 ```
-:UkagakaCommunicate 話したい事
+:UkagakaCommunicate <話したい事>
 ```
 直接Ghostと対話する為のコマンド。<br>
 CommunicateBoxに送信したときと同じ動作となる。
 
 
 ### UkagakaAsk [引数]
+```
+:UkagakaAsk [話したい事]
+```
 引数 + 現在の行および選択した行のテキストをOnCommunicate関数に送信する。
+引数は必須ではない。
 ChatGPTなどとの対話を想定している。
 
 
