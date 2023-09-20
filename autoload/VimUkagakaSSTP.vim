@@ -40,7 +40,7 @@ class VimUkagakaSSTP:
     #対話用
     def Communicate( self , script ):
         Event       = "Event: OnCommunicate\r\n"
-        Reference0  = "Reference0 : User\r\n"
+        Reference0  = "Reference0 : user\r\n"
         Reference1  = "Reference1 : " + script + "\r\n"
 
         msg = self.Method + self.Charset + self.Sender + self.Option + self.IfGhost + Event + Reference0 + Reference1 + self.End
