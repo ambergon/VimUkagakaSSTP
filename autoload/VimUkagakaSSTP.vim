@@ -1,5 +1,9 @@
 
 
+if !exists('g:UkagakaGhost')
+    let g:UkagakaGhost = ""
+endif
+
 if !exists('g:UkagakaGhostOption')
     let g:UkagakaGhostOption = ""
 endif
