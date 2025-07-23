@@ -70,6 +70,7 @@ class VimUkagakaSSTP:
 
     def Send( self , sendText ):
         Client = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
+        Client.settimeout(1.0)
         Client.connect(( self.Host , self.Port ))
         Client.send( sendText.encode() )
         response = Client.recv( 4096 )
