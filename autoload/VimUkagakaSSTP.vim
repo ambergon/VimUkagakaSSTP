@@ -7,7 +7,6 @@ if !exists('g:UkagakaGhostOption')
     let g:UkagakaGhostOption = ""
 endif
 
-let g:UkagakaGhostPre= "前提\\n- vimについて離す場合はNeo Vimの話は不要です。通常のVim環境の話のみしてください。\\n- お世辞は不要です。\\n- 事務的で端的なしゃべり方でお願いします。\\n\\n"
 if !exists('g:UkagakaGhostPre')
     let g:UkagakaGhostPre= ""
 endif
