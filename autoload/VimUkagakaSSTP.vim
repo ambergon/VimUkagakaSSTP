@@ -1,5 +1,4 @@
 
-
 if !exists('g:UkagakaGhost')
     let g:UkagakaGhost = ""
 endif
@@ -8,6 +7,10 @@ if !exists('g:UkagakaGhostOption')
     let g:UkagakaGhostOption = ""
 endif
 
+let g:UkagakaGhostPre= "前提\\n- vimについて離す場合はNeo Vimの話は不要です。通常のVim環境の話のみしてください。\\n- お世辞は不要です。\\n- 事務的で端的なしゃべり方でお願いします。\\n\\n"
+if !exists('g:UkagakaGhostPre')
+    let g:UkagakaGhostPre= ""
+endif
 
 python3 << EOF
 # -*- coding: utf-8 -*-
@@ -150,7 +153,7 @@ function! VimUkagakaSSTP#Ask(...) abort
         "let l:text = l:text . l:line 
         let l:text = l:text . l:line . '\\n'
     endfor
-    let l:text = a:1 . '\\n' . l:text
+    let l:text = g:UkagakaGhostPre . a:1 . '\\n' . l:text
 
     "execute "python3 VimUkagakaSSTPInst.Talk('" . l:text . "')"
     execute "python3 VimUkagakaSSTPInst.Communicate('" . l:text . "')"
